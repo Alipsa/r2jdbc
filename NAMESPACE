@@ -1,0 +1,4 @@
+# export everything that does not start with a .
+importClass(se.alipsa.r2jdbc.JDBCUtils)
+import(DBI)
+exportPattern("^[^\\.]")

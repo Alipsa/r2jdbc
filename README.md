@@ -1,2 +1,4 @@
 # r2jdbc
-Renjin database connecttivity
+Renjin database connectivity.
+
+Based on the renjin-dbi (https://github.com/bedatadriven/renjin-dbi).
