@@ -17,6 +17,11 @@ Note that you need to add the driver jar to the classpath in addition to R2JDBC 
 
 ```
         <dependency>
+          <groupId>org.renjin.cran</groupId>
+          <artifactId>DBI</artifactId>
+          <version>1.0.0-b9</version>
+        </dependency>
+        <dependency>
             <groupId>se.alipsa</groupId>
             <artifactId>R2JDBC</artifactId>
             <version>10.0.16</version>
