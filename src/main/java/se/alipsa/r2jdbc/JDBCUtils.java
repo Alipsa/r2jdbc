@@ -29,7 +29,7 @@ public class JDBCUtils {
     /**
      * Check is the ResultSet is closed or if the cursor is after the last row.
      *
-     * @param rs
+     * @param rs the resultset to check
      * @return boolean
      */
     public static boolean hasCompleted(ResultSet rs) {
@@ -96,7 +96,7 @@ public class JDBCUtils {
     /**
      * Returns the name and the SQL data type for each column of a table
      *
-     * @param rs
+     * @param rs the resultset to check
      * @return ListVector
      */
     public static ListVector columnInfo(ResultSet rs) {
@@ -118,8 +118,8 @@ public class JDBCUtils {
     /**
      * This is required because Renjn's property accessor fails on the Oracle
      * JDBC driver
-     * @param s
-     * @return 
+     * @param s the statement
+     * @return the resultset for the statement
      */
     public static ResultSet gimmeResults(Statement s) {
         try {
@@ -131,8 +131,8 @@ public class JDBCUtils {
   
     /**
      * Same as above
-     * @param c
-     * @param newState
+     * @param c the connection
+     * @param newState autocommit state
      */
     public static void toggleAutocommit(Connection c, boolean newState) {
         try {
@@ -144,9 +144,9 @@ public class JDBCUtils {
 
     /**
      * Fetch the columns and row values into Renjin datatypes
-     * @param rs
-     * @param n
-     * @return
+     * @param rs the resultset to check
+     * @param n number of rows to fetch
+     * @return a ListVector (data.frame) for the result
      */
     public static ListVector fetch(ResultSet rs, long n) {
         try {
