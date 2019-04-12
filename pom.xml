@@ -5,7 +5,7 @@
 
   <groupId>se.alipsa</groupId>
   <artifactId>R2JDBC</artifactId>
-  <version>10.0.16-SNAPSHOT</version>
+  <version>10.0.16</version>
   <packaging>jar</packaging>
 
   <name>R2JDBC</name>
@@ -206,6 +206,50 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>3.0.0-M3</version>
+        <executions>
+          <execution>
+            <id>junit</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report-only</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>hamcrest</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report-only</goal>
+            </goals>
+            <configuration>
+              <title>Hamcrest R Tests Report</title>
+              <outputName>hamcrest-report</outputName>
+              <reportsDirectories>${project.build.directory}/renjin-hamcrest-test-reports
+              </reportsDirectories>
+              <linkXRef>false</linkXRef>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.7.1</version>
+        <configuration>
+          <generateReports>false</generateReports>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>test</phase>
+            <goals>
+              <goal>site</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -216,10 +260,10 @@
       <url>http://nexus.bedatadriven.com/content/groups/public/</url>
     </repository>
 
-    <repository>
+    <!--repository>
       <id>clojars.org</id>
       <url>http://clojars.org/repo</url>
-    </repository>
+    </repository-->
   </repositories>
 
   <pluginRepositories>
