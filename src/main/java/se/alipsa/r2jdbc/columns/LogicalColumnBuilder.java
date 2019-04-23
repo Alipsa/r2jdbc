@@ -11,6 +11,7 @@ public class LogicalColumnBuilder implements ColumnBuilder {
 
     public static boolean acceptsType(String columnType) {
       return columnType.equals("boolean") ||
+             columnType.equals("bool") ||
              columnType.equals("bit");
     }
 
