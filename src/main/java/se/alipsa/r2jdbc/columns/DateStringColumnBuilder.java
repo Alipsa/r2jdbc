@@ -20,7 +20,7 @@ public class DateStringColumnBuilder implements ColumnBuilder {
 
     public static boolean acceptsType(String columnType) {
         return columnType.equals("datetime") || columnType.equals("timestamp")
-            || columnType.equals("datetime2");
+            || columnType.equals("datetime2") || columnType.equals("datetimeoffset");
     }
 
     public DateStringColumnBuilder(DateTimeFormatter format) {
