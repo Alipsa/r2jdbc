@@ -1,11 +1,11 @@
 # r2jdbc
 Renjin database connectivity.
 
-Based on the renjin-dbi (https://github.com/bedatadriven/renjin-dbi).
+Based on renjin-dbi (https://github.com/bedatadriven/renjin-dbi).
 
 # Example
 ```R
-library("DBI")
+library("org.renjin.cran:DBI")
 library("se.alipsa:R2JDBC")
 drv <- JDBC("org.h2.Driver") 
 con <- dbConnect(drv, url="jdbc:h2:mem:test") 
@@ -26,7 +26,12 @@ Note that you need to add the driver jar to the classpath in addition to R2JDBC 
             <artifactId>R2JDBC</artifactId>
             <version>10.0.16</version>
         </dependency>
-        <!-- the driver -->
+        <dependency>
+          <groupId>joda-time</groupId>
+          <artifactId>joda-time</artifactId>
+          <version>2.10.1</version>
+        </dependency>
+        <!-- the driver, depends on what db you want to use ;) -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
