@@ -24,14 +24,24 @@ setMethod("dbGetInfo", "JDBCDriver", def=function(dbObj, ...)
 
 setMethod("dbUnloadDriver", "JDBCDriver", def=function(drv, ...) FALSE)
 
-setMethod("dbConnect", "JDBCDriver", def=function(drv, url, user='', password='', ...) {
-	if (getOption("dbi.debug", F)) message("II: Connecting to ",url," with user ", user, " and a non-printed password.")
-	prop <- import(java.util.Properties)$new()
-	prop$setProperty("user", user)
-	prop$setProperty("password", password)
-	jconn <- drv@ptr$connect(url, prop)
-  new("JDBCConnection", ptr=jconn, identifier.quote=drv@identifier.quote)},
-          valueClass="JDBCConnection")
+setMethod("dbConnect", "JDBCDriver",
+    def=function(drv, url, user='', password='', ...) {
+        if (getOption("dbi.debug", F)) message("II: Connecting to ",url," with user ", user, " and a non-printed password.")
+
+        prop <- import(java.util.Properties)$new()
+
+        if (!is.na(user)) {
+            prop$setProperty("user", user)
+        }
+        if (!is.na(password)) {
+            prop$setProperty("password", password)
+        }
+
+        jconn <- drv@ptr$connect(url, prop)
+
+        new("JDBCConnection", ptr=jconn, identifier.quote=drv@identifier.quote)
+    }, valueClass="JDBCConnection"
+)
 
 dbDriver <- function(drvName, ...)   do.call(drvName, list(...))
 

@@ -39,6 +39,43 @@ Note that you need to add the driver jar to the classpath in addition to R2JDBC 
         </dependency>
 ```
 
+# Special cases
+The microsoft SQl server driver (an maybe others) gets confused when user and password is specified in the url only. 
+In most other JDBC drivers, supplying and empty string for user and password works where the username/password in the url
+will then take precedence, but not so for the SQL server driver. Hence, you need to set user and password to NA to get it to work.
+E.g. this pattern (which works for postgres, derby, h2 etc) will not work:
+```
+drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+con <- dbConnect(
+        drv, 
+        url="jdbc:sqlserver://localhost:1433;databaseName=tempdb;user=test;password=unS3cur3P@55"
+)
+```
+
+but this will work fine:
+
+```
+drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+con <- dbConnect(
+        drv,
+        url="jdbc:sqlserver://localhost:1433;databaseName=tempdb;user=test;password=unS3cur3P@55",
+        user=NA,
+        password=NA
+)
+```
+
+and of course so will this:
+
+```
+drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver")
+con <- dbConnect(
+        drv,
+        url="jdbc:sqlserver://localhost:1433;databaseName=tempdb",
+        user="test",
+        password="unS3cur3P@55"
+)
+```
+
 # Building 
 Note:
 This does not build properly on Windows for some reason (classes are does not end correctly with RData,
