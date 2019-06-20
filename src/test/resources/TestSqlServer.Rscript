@@ -1,22 +1,25 @@
 library("org.renjin.cran:DBI")
 library("se.alipsa:R2JDBC")
-library("hamcrest")
+library("org.renjin:hamcrest")
+
+############################################################################################
+# NOTE: this is named .Rscript so it will not be picked up automatically by the test plugin
+# instead it is executed by junit code
+# This is because I cannot get classloading to work properly for the TestContainer i.e.
+# sett up the TestContainer for SqlServer directly from the R test does not work.
+############################################################################################
 
 # SQL Server cannot handle blank string as username and password in combination with
 # user name and password as part of the ur (which works fine for postgres etc.)
 # to support this case, NA as user and password can be used instead
 
-# this test needs a local sql server and a user called test, e.g.
-# CREATE LOGIN [test] WITH PASSWORD='unS3cur3P@55',
-# DEFAULT_LANGUAGE=[us_english], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
-# GO
-# use tempdb;
-# go
-# CREATE USER [test] FOR LOGIN [test] WITH DEFAULT_SCHEMA=[dbo]
-# GO
+# docker pull mcr.microsoft.com/mssql/server:2017-latest
 
 drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver")
 
+dbUser <- mssqlserver$getUsername()
+dbPassword <- mssqlserver$getPassword()
+sqlServerUrl <- paste0(mssqlserver$getJdbcUrl(), ";user=", dbUser, ";password=", dbPassword)
 
 # "Normal" way, this always works
 # con <- dbConnect(
@@ -36,7 +39,7 @@ drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver")
 tryCatch( {
     con <- dbConnect(
             drv,
-            url="jdbc:sqlserver://localhost:1433;databaseName=tempdb;user=test;password=unS3cur3P@55",
+            url=sqlServerUrl,
             user=NA,
             password=NA
     )
@@ -44,9 +47,8 @@ tryCatch( {
 }, error = function(e) {
     loginMsg <- "Error: Login failed for user"
     errStr <- substr(e, 1, nchar(loginMsg))
-    #print(paste("errStr =", errStr))
     if (errStr == loginMsg) {
-        message("Login failed, either wrong password or user missing (you need to create the user first for this test to work)")
+        message("Login failed, either wrong password or user missing (Something is probably wrong with the TestContainer docker setup)")
     } else {
         message("There is probably no SQL server database installed")
     }
@@ -55,9 +57,9 @@ tryCatch( {
 
 
 
-tryCatch(dbSendUpdate(con, "DROP TABLE #MyTable"), error = function(e) e)
+tryCatch(dbSendUpdate(con, "IF OBJECT_ID('tempdb.#MyTable') is not null DROP TABLE #MyTable"), error = function(e) e)
 
-# Creating table
+print("# Creating table")
 dbSendUpdate(con, paste('CREATE TABLE #MyTable (
 	"id" INT NOT NULL,
 	"title" VARCHAR(50) NOT NULL,
@@ -68,7 +70,7 @@ dbSendUpdate(con, paste('CREATE TABLE #MyTable (
 	)
 '))
 
-# add some data
+print("# add some data")
 dbSendUpdate(con, paste("
 insert into #MyTable values
 (1, 'Answer to Job', 'C.G. Jung', cast(getdate() as date), getdate(), 22),
@@ -77,7 +79,7 @@ insert into #MyTable values
 "
 ))
 
-# some simple tests
+print("# now some simple tests")
 
 books <- dbGetQuery(con, "select * from #MyTable")
 assertThat(books[books$id == 3, "title"], identicalTo("Siddharta"))
