@@ -5,7 +5,7 @@
 
   <groupId>se.alipsa</groupId>
   <artifactId>R2JDBC</artifactId>
-  <version>10.0.19-SNAPSHOT</version>
+  <version>10.0.19</version>
   <packaging>jar</packaging>
 
   <name>R2JDBC</name>
