@@ -3,6 +3,8 @@ Renjin database connectivity.
 
 Based on renjin-dbi (https://github.com/bedatadriven/renjin-dbi).
 
+Releases are now available on maven central. 
+
 # Example
 ```R
 library("org.renjin.cran:DBI")
@@ -24,7 +26,7 @@ Note that you need to add the driver jar to the classpath in addition to R2JDBC 
         <dependency>
             <groupId>se.alipsa</groupId>
             <artifactId>R2JDBC</artifactId>
-            <version>10.0.16</version>
+            <version>10.0.19</version>
         </dependency>
         <dependency>
           <groupId>joda-time</groupId>
