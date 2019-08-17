@@ -34,7 +34,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <renjin.version>3.5-beta64</renjin.version>
-    <dbi.version>1.0.0-b9</dbi.version>
+    <dbi.version>[1.0.0-b9,)</dbi.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <slf4j.version>1.7.27</slf4j.version>
