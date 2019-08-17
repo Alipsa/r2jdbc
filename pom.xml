@@ -195,11 +195,6 @@
             </defaultPackages>
           </configuration>
           <dependencies>
-            <!--dependency>
-              <groupId>org.renjin.cran</groupId>
-              <artifactId>DBI</artifactId>
-              <version>${dbi.version}</version>
-            </dependency-->
           </dependencies>
         </plugin>
         <plugin>
@@ -230,27 +225,6 @@
                 </exclusion>
               </exclusions>
             </dependency>
-            <!--dependency>
-              <groupId>org.renjin</groupId>
-              <artifactId>renjin-core</artifactId>
-              <version>${renjin.version}</version>
-              <exclusions>
-                <exclusion>
-                  <groupId>commons-logging</groupId>
-                  <artifactId>commons-logging</artifactId>
-                </exclusion>
-              </exclusions>
-            </dependency-->
-            <dependency>
-              <groupId>org.renjin</groupId>
-              <artifactId>hamcrest</artifactId>
-              <version>${renjin.version}</version>
-            </dependency>
-            <!--dependency>
-              <groupId>org.renjin.cran</groupId>
-              <artifactId>DBI</artifactId>
-              <version>${dbi.version}</version>
-            </dependency-->
           </dependencies>
         </plugin>
         <plugin>
@@ -364,11 +338,6 @@
       <name>bedatadriven public repo</name>
       <url>http://nexus.bedatadriven.com/content/groups/public/</url>
     </repository>
-
-    <!--repository>
-      <id>clojars.org</id>
-      <url>http://clojars.org/repo</url>
-    </repository-->
   </repositories>
 
   <pluginRepositories>
