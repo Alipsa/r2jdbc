@@ -1,5 +1,6 @@
 import org.junit.Rule;
 import org.junit.Test;
+import org.renjin.script.RenjinScriptEngine;
 import org.renjin.script.RenjinScriptEngineFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class SqlServerTest {
       String scriptPath = "TestSqlServer.Rscript";
 
       RenjinScriptEngineFactory factory = new RenjinScriptEngineFactory();
-      ScriptEngine engine = factory.getScriptEngine();
+      RenjinScriptEngine engine = factory.getScriptEngine();
       engine.put("mssqlserver", mssqlserver);
       try {
          String script = getResourceContent(scriptPath);
