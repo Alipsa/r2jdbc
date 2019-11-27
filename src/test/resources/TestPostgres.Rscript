@@ -1,0 +1,35 @@
+library("org.renjin.cran:DBI")
+library("se.alipsa:R2JDBC")
+library("org.renjin:hamcrest")
+
+con <- dbConnect(
+        JDBC("org.postgresql.Driver"),
+        url=database$getJdbcUrl(),
+        user=database$getUsername(),
+        password=database$getPassword()
+)
+
+sql <- paste("select col.TABLE_NAME",
+        ", TABLE_TYPE",
+        ", COLUMN_NAME",
+        ", ORDINAL_POSITION",
+        ", IS_NULLABLE",
+        ", DATA_TYPE",
+        ", CHARACTER_MAXIMUM_LENGTH",
+        ", NUMERIC_PRECISION",
+        ", NUMERIC_PRECISION_RADIX",
+        ", NUMERIC_SCALE",
+        ", COLLATION_NAME",
+        "from INFORMATION_SCHEMA.COLUMNS col",
+        "inner join INFORMATION_SCHEMA.TABLES tab ",
+        "      on col.TABLE_NAME = tab.TABLE_NAME and col.TABLE_SCHEMA = tab.TABLE_SCHEMA",
+        "where TABLE_TYPE <> 'SYSTEM TABLE'",
+        "and tab.TABLE_SCHEMA not in ('SYSTEM TABLE', 'PG_CATALOG', 'INFORMATION_SCHEMA', 'pg_catalog', 'information_schema')")
+
+metaData <- dbGetQuery(con, sql)
+dbDisconnect(con)
+
+nameRow <- metaData[which(metaData$data_type == 'name'),]
+# print(names(nameRow))
+print(paste("Found the following columns with the name data type:", paste0(nameRow$table_name, ".", nameRow$column_name )));
+assertThat(nrow(nameRow), equalTo(1))

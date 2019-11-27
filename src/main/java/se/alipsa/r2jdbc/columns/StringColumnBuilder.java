@@ -14,9 +14,9 @@ public class StringColumnBuilder implements ColumnBuilder {
 
     public static boolean acceptsType(String columnType) {
       return columnType.equals("string") || columnType.equals("text") || columnType.equals("clob")
-          || columnType.startsWith("varchar") || columnType.endsWith("char")
-          || columnType.equals("date") || columnType.equals("time") || columnType.equals("uniqueidentifier")
-          || columnType.equals("null") || columnType.equals("unknown");
+             || columnType.startsWith("varchar") || columnType.endsWith("char")
+             || columnType.equals("date") || columnType.equals("time") || columnType.equals("uniqueidentifier")
+             || columnType.equals("name") || columnType.equals("null") || columnType.equals("unknown");
     }
 
     @Override

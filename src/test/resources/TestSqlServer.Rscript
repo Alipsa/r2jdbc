@@ -3,10 +3,9 @@ library("se.alipsa:R2JDBC")
 library("org.renjin:hamcrest")
 
 ############################################################################################
-# NOTE: this is named .Rscript so it will not be picked up automatically by the test plugin
-# instead it is executed by junit code
-# This is because I cannot get classloading to work properly for the TestContainer i.e.
-# sett up the TestContainer for SqlServer directly from the R test does not work.
+# setting up the TestContainer for SqlServer directly from the R test does not work due to
+# classloading issues. So this script is executed from a java junit test which injects the
+# container.
 ############################################################################################
 
 # SQL Server cannot handle blank string as username and password in combination with
@@ -17,9 +16,9 @@ library("org.renjin:hamcrest")
 
 drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver")
 
-dbUser <- mssqlserver$getUsername()
-dbPassword <- mssqlserver$getPassword()
-sqlServerUrl <- paste0(mssqlserver$getJdbcUrl(), ";user=", dbUser, ";password=", dbPassword)
+dbUser <- database$getUsername()
+dbPassword <- database$getPassword()
+sqlServerUrl <- paste0(database$getJdbcUrl(), ";user=", dbUser, ";password=", dbPassword)
 
 # "Normal" way, this always works
 # con <- dbConnect(
