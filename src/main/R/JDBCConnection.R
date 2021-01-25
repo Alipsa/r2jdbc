@@ -141,6 +141,65 @@ setMethod("dbDataType", signature(dbObj="JDBCConnection", obj = "ANY"),
   paste(quote,s,quote,sep='')
 }
 
+dbBatchInsert <- function(conn, name, df, overwrite=TRUE, append=FALSE) {
+	if (!is.data.frame(df)) {
+		stop(paste("df must be a data.frame but was", typeof(df)))
+	}
+	if (overwrite && append) {
+		stop("Setting both overwrite and append to true makes no sense.")
+	}
+	qname <- make.db.names(conn, name)
+	if (dbExistsTable(conn, qname)) {
+		if (overwrite) dbRemoveTable(conn, qname)
+		if (!overwrite && !append) stop("Table ", qname, " already exists. Set overwrite=TRUE if you want
+							to remove the existing table. Set append=TRUE if you would like to add the new data to the
+							existing table.")
+	}
+	if (!dbExistsTable(conn, qname)) {
+		fts <- sapply(df, function(x) {
+			dbDataType(conn, x)
+		})
+		fdef <- paste(make.db.names(conn, tolower(names(df))), fts, collapse=', ')
+		ct <- paste0("CREATE TABLE ", qname, " (", fdef, ")")
+		dbSendUpdate(conn, ct)
+	}
+
+	cols <- paste(replicate(ncol(df), "?"), collapse = ",")
+	psQry <- paste0("INSERT INTO ", qname, " VALUES (", cols, ")")
+	ps <- conn@ptr$prepareStatement(psQry)
+
+	valueTypes <- sapply(df, class)
+	dbTypes <- tolower(fts)
+	# for each row
+	for (ridx in 1:nrow(df)) {
+		for(cidx in 1:ncol(df)) {
+			cellVal <- df[[ridx, cidx]]
+			valueClass <- valueTypes[[cidx]]
+			if (valueClass == "factor") {
+				dbType <- dbTypes[[cidx]]
+				if (dbType == "integer")
+					ps$setInt(cidx, as.integer(cellVal))
+				else if (dbType == "double precision")
+					ps$setDouble(cidx, as.numeric(cellVal))
+				else
+					ps$setString(cidx, as.character(cellVal))
+			} else if (valueClass == "numeric")
+				ps$setDouble(cidx, cellVal)
+			else if (valueClass == "logical")
+				ps$setBoolean(cidx, cellVal)
+			else if (valueClass == "integer")
+				ps$setInt(cidx, cellVal)
+			else if (valueClass == c("raw"))
+				stop("raw() data is so far only supported when reading from BLOBs")
+			else
+				ps$setString(cidx, cellVal)
+		}
+		ps$addBatch()
+	}
+	ps$executeBatch()
+	ps$close()
+	invisible(TRUE)
+}
 
 setMethod("dbWriteTable", "JDBCConnection", def=function(conn, name, value, overwrite=TRUE, append=FALSE,
  csvdump=FALSE, transaction=TRUE, ..., max.batch=10000L) {
