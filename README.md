@@ -83,3 +83,27 @@ Note:
 This does not build properly on Windows for some reason (classes are does not end correctly with RData,
 this is probably a bug in the renjin-maven-plugin or the gcc bridge). Until this is resolved you need to build in Linux
 (though it probably works on other Unix like distributions as well)
+
+# Version history
+
+## Ver 10.0.21
+- mysql has a BIGINT UNSIGNED type; treat it as a regular BIGINT for now.
+- Version bump of dependencies.
+
+## Ver 10.0.20
+- Add support for the "name" datatype (e.g. in postgresql).
+
+## Ver 10.0.19
+- Fix for Sql server when url contains username/password. 
+- Add unit tests using TestContainer with Docker.
+- Version bump of dependencies.
+
+## Ver 10.0.18
+- Add support for datetimeoffset datatype. Published on maven central.
+
+## Ver 10.0.17
+- Fix for boolean datatype on postgres (announced as "bool" type)
+
+## Ver 10.0.16
+R2JDBC is a renjin extension providing database connectivity. It is Based on the renjin-dbi (https://github.com/bedatadriven/renjin-dbi). 
+Most of the changes consists of support for more data types.
