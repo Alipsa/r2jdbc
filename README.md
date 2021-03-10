@@ -86,6 +86,9 @@ this is probably a bug in the renjin-maven-plugin or the gcc bridge). Until this
 
 # Version history
 
+## Ver 10.0.22
+(nothing yet)
+
 ## Ver 10.0.21
 - mysql has a BIGINT UNSIGNED type; treat it as a regular BIGINT for now.
 - Version bump of dependencies.
