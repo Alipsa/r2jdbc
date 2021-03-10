@@ -26,18 +26,18 @@ Note that you need to add the driver jar to the classpath in addition to R2JDBC 
         <dependency>
             <groupId>se.alipsa</groupId>
             <artifactId>R2JDBC</artifactId>
-            <version>10.0.19</version>
+            <version>10.0.21</version>
         </dependency>
         <dependency>
           <groupId>joda-time</groupId>
           <artifactId>joda-time</artifactId>
-          <version>2.10.1</version>
+          <version>2.10.10</version>
         </dependency>
         <!-- the driver, depends on what db you want to use ;) -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.197</version>
+            <version>1.4.200</version>
         </dependency>
 ```
 
