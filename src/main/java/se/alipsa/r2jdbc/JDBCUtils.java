@@ -2,6 +2,7 @@ package se.alipsa.r2jdbc;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.ResultSetMetaData;
@@ -211,5 +212,4 @@ public class JDBCUtils {
             throw new EvalException(e);
         }
     }
-
 }
