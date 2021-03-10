@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class BigIntColumnBuilder implements ColumnBuilder {
 
     public static boolean acceptsType(String columnType) {
-        return columnType.equals("bigint");
+        return columnType.startsWith("bigint");
     }
     
     public DoubleArrayVector.Builder vector = new DoubleArrayVector.Builder();
