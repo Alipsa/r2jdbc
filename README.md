@@ -26,18 +26,18 @@ Note that you need to add the driver jar to the classpath in addition to R2JDBC 
         <dependency>
             <groupId>se.alipsa</groupId>
             <artifactId>R2JDBC</artifactId>
-            <version>10.0.21</version>
+            <version>10.0.22</version>
         </dependency>
         <dependency>
           <groupId>joda-time</groupId>
           <artifactId>joda-time</artifactId>
-          <version>2.10.10</version>
+          <version>2.10.13</version>
         </dependency>
         <!-- the driver, depends on what db you want to use ;) -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.200</version>
+            <version>2.0.202</version>
         </dependency>
 ```
 
@@ -87,7 +87,8 @@ this is probably a bug in the renjin-maven-plugin or the gcc bridge). Until this
 # Version history
 
 ## Ver 10.0.22
-(nothing yet)
+- Add support for CHARACTER VARYING data type (e.g. H2)
+- Version bump of dependencies. 
 
 ## Ver 10.0.21
 - mysql has a BIGINT UNSIGNED type; treat it as a regular BIGINT for now.
