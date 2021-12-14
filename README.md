@@ -86,6 +86,8 @@ this is probably a bug in the renjin-maven-plugin or the gcc bridge). Until this
 
 # Version history
 
+## Ver 10.0.23
+
 ## Ver 10.0.22
 - Add support for CHARACTER VARYING data type (e.g. H2)
 - Version bump of dependencies. 
