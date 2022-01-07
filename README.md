@@ -26,7 +26,7 @@ Note that you need to add the driver jar to the classpath in addition to R2JDBC 
         <dependency>
             <groupId>se.alipsa</groupId>
             <artifactId>R2JDBC</artifactId>
-            <version>10.0.22</version>
+            <version>10.0.23</version>
         </dependency>
         <dependency>
           <groupId>joda-time</groupId>
@@ -87,6 +87,8 @@ this is probably a bug in the renjin-maven-plugin or the gcc bridge). Until this
 # Version history
 
 ## Ver 10.0.23
+- upgrade dependencies (h2, maven site plugin)
+- improve bigint support for postgresql (when detected as int8), add support for bigserial
 
 ## Ver 10.0.22
 - Add support for CHARACTER VARYING data type (e.g. H2)

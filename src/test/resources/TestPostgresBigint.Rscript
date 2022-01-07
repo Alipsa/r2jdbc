@@ -1,0 +1,26 @@
+library("org.renjin.cran:DBI")
+library("se.alipsa:R2JDBC")
+library("org.renjin:hamcrest")
+
+con <- dbConnect(
+        JDBC("org.postgresql.Driver"),
+        url=database$getJdbcUrl(),
+        user=database$getUsername(),
+        password=database$getPassword()
+)
+
+print("# add some data")
+dbSendUpdate(con, paste("
+insert into bigint_table values
+(-10912298399, -10912298399, 'Big negative'),
+(89012389202, 89012389202, 'Big positive'),
+(0, 0, 'zero')
+"
+))
+
+sql <- paste("select * from bigint_table")
+
+bigInts <- dbGetQuery(con, sql)
+dbDisconnect(con)
+
+assertThat(nrow(bigInts), equalTo(3))

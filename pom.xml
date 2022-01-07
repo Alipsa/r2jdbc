@@ -5,7 +5,7 @@
 
   <groupId>se.alipsa</groupId>
   <artifactId>R2JDBC</artifactId>
-  <version>10.0.23-SNAPSHOT</version>
+  <version>10.0.23</version>
   <packaging>jar</packaging>
 
   <name>R2JDBC</name>
@@ -369,7 +369,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.9.1</version>
+        <version>3.10.0</version>
         <configuration>
           <generateReports>false</generateReports>
         </configuration>

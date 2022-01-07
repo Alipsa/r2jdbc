@@ -26,7 +26,29 @@ public class PostgresqlTest extends AbstractDbTest {
                                           + "id INT8 not null primary key, note varchar(255), num int, nametest name)");
     }
 
-    String scriptPath = "TestPostgres.Rscript";
+    String scriptPath = "TestPostgresMeta.Rscript";
+
+    RenjinScriptEngineFactory factory = new RenjinScriptEngineFactory();
+    RenjinScriptEngine engine = factory.getScriptEngine();
+    engine.put("database", pgServer);
+    try {
+      String script = getResourceContent(scriptPath);
+      engine.eval(script);
+    } catch (Exception e) {
+      log.warn("Exception running rest");
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testBigInt() throws SQLException {
+
+    try(Connection con = getConnection(pgServer)) {
+      con.createStatement().executeUpdate("create table if not exists bigint_table("
+          + "id bigserial not null primary key, bignum bigint, note varchar(255))");
+    }
+
+    String scriptPath = "TestPostgresBigint.Rscript";
 
     RenjinScriptEngineFactory factory = new RenjinScriptEngineFactory();
     RenjinScriptEngine engine = factory.getScriptEngine();

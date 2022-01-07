@@ -163,25 +163,19 @@ public class JDBCUtils {
             for (int i = 0; i < numColumns; i++) {
                 ListVector columnInfo = (ListVector) columnVector.get(i);
                 String columnType = columnInfo.get("type").asString().toLowerCase();
-
+                //System.out.println("columnType is " + columnType);
                 if (BigIntColumnBuilder.acceptsType(columnType)) {
                     builders.add(new BigIntColumnBuilder());
-
                 } else if (IntColumnBuilder.acceptsType(columnType)) {
                     builders.add(new IntColumnBuilder());
-
                 } else if (DoubleColumnBuilder.acceptsType(columnType)) {
                     builders.add(new DoubleColumnBuilder());
-
                 } else if (LogicalColumnBuilder.acceptsType(columnType)) {
                     builders.add(new LogicalColumnBuilder());
-
                 } else if (StringColumnBuilder.acceptsType(columnType)) {
                     builders.add(new StringColumnBuilder());
-
                 } else if (DateStringColumnBuilder.acceptsType(columnType)) {
                     builders.add(new DateStringColumnBuilder(ISODateTimeFormat.dateTime()));
-
                 } else if (BlobColumnBuilder.acceptsType(columnType)) {
                     builders.add(new BlobColumnBuilder());
                 } else {
