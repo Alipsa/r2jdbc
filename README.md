@@ -86,6 +86,9 @@ this is probably a bug in the renjin-maven-plugin or the gcc bridge). Until this
 
 # Version history
 
+## Ver 10.0.24
+- Upgrade h2 dependency
+
 ## Ver 10.0.23
 - upgrade dependencies (h2, maven site plugin)
 - improve bigint support for postgresql (when detected as int8), add support for bigserial
