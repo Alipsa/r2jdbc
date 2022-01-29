@@ -1,6 +1,5 @@
 package se.alipsa.r2jdbc.columns;
 
-import org.joda.time.format.DateTimeFormatter;
 import org.renjin.sexp.AtomicVector;
 import org.renjin.sexp.StringArrayVector;
 import org.renjin.sexp.StringVector;
@@ -8,6 +7,8 @@ import org.renjin.sexp.StringVector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Constructs a character vector column from a date-time field in a ResultSet.
@@ -33,7 +34,7 @@ public class DateStringColumnBuilder implements ColumnBuilder {
         if(date == null) {
             vector.addNA();
         } else {
-            vector.add(format.print(date.getTime()));
+            vector.add(format.format(date.toInstant().atZone(ZoneId.systemDefault())));
         }
     }
 

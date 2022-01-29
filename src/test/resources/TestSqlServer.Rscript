@@ -81,6 +81,7 @@ insert into #MyTable values
 print("# now some simple tests")
 
 books <- dbGetQuery(con, "select * from #MyTable")
+print(books)
 assertThat(books[books$id == 3, "title"], identicalTo("Siddharta"))
 
 books <- dbGetQuery(con, paste("select * from #MyTable"))

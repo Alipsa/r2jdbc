@@ -87,6 +87,7 @@ this is probably a bug in the renjin-maven-plugin or the gcc bridge). Until this
 # Version history
 
 ## Ver 10.0.25
+- Removed dependency on Joda Time
 
 ## Ver 10.0.24, Jan 29, 2022
 - Upgrade h2 dependency 
