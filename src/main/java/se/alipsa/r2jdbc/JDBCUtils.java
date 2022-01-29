@@ -2,19 +2,18 @@ package se.alipsa.r2jdbc;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.format.ISODateTimeFormat;
-import org.renjin.sexp.StringArrayVector;
+import org.renjin.primitives.sequence.IntSequence;
+import org.renjin.primitives.vector.ConvertingStringVector;
 import se.alipsa.r2jdbc.columns.*;
 import org.renjin.eval.EvalException;
-import org.renjin.primitives.vector.RowNamesVector;
 import org.renjin.sexp.ListVector;
 import org.renjin.sexp.StringVector;
 
@@ -176,7 +175,7 @@ public class JDBCUtils {
                 } else if (StringColumnBuilder.acceptsType(columnType)) {
                     builders.add(new StringColumnBuilder());
                 } else if (DateStringColumnBuilder.acceptsType(columnType)) {
-                    builders.add(new DateStringColumnBuilder(ISODateTimeFormat.dateTime()));
+                    builders.add(new DateStringColumnBuilder(DateTimeFormatter.ISO_DATE_TIME));
                 } else if (BlobColumnBuilder.acceptsType(columnType)) {
                     builders.add(new BlobColumnBuilder());
                 } else {
@@ -185,7 +184,6 @@ public class JDBCUtils {
             }
 
             long rows = 0;
-            List<String> rowNames = new ArrayList<>();
             /* collect values */
             while (n > 0 && rs.next()) {
                 for (int i = 0; i < numColumns; i++) {
@@ -193,7 +191,6 @@ public class JDBCUtils {
                 }
                 rows++;
                 n--;
-                rowNames.add(String.valueOf(rows));
             }
             /* call build() on each column and add them as named cols to df */
             ListVector.NamedBuilder dataFrame = new ListVector.NamedBuilder();
@@ -202,8 +199,7 @@ public class JDBCUtils {
                 dataFrame.add(ci.get("name").asString(), builders.get(i).build());
             }
 
-            StringVector vec = new StringArrayVector(rowNames);
-            dataFrame.setAttribute("row.names", vec);
+            dataFrame.setAttribute("row.names", new ConvertingStringVector(IntSequence.fromTo(1, rows)));
             dataFrame.setAttribute("class", StringVector.valueOf("data.frame"));
             return dataFrame.build();
 

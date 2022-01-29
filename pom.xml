@@ -5,7 +5,7 @@
 
   <groupId>se.alipsa</groupId>
   <artifactId>R2JDBC</artifactId>
-  <version>10.0.24-SNAPSHOT</version>
+  <version>10.0.25-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>R2JDBC</name>
@@ -96,12 +96,6 @@
           <artifactId>stats4</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-      <version>2.10.13</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.renjin</groupId>
