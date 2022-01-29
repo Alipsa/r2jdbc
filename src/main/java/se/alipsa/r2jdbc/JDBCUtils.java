@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.format.ISODateTimeFormat;
+import org.renjin.sexp.StringArrayVector;
 import se.alipsa.r2jdbc.columns.*;
 import org.renjin.eval.EvalException;
 import org.renjin.primitives.vector.RowNamesVector;
@@ -184,6 +185,7 @@ public class JDBCUtils {
             }
 
             long rows = 0;
+            List<String> rowNames = new ArrayList<>();
             /* collect values */
             while (n > 0 && rs.next()) {
                 for (int i = 0; i < numColumns; i++) {
@@ -191,6 +193,7 @@ public class JDBCUtils {
                 }
                 rows++;
                 n--;
+                rowNames.add(String.valueOf(rows));
             }
             /* call build() on each column and add them as named cols to df */
             ListVector.NamedBuilder dataFrame = new ListVector.NamedBuilder();
@@ -198,7 +201,9 @@ public class JDBCUtils {
                 ListVector ci = (ListVector) columnVector.get(i);
                 dataFrame.add(ci.get("name").asString(), builders.get(i).build());
             }
-            dataFrame.setAttribute("row.names", new RowNamesVector((int) rows));
+
+            StringVector vec = new StringArrayVector(rowNames);
+            dataFrame.setAttribute("row.names", vec);
             dataFrame.setAttribute("class", StringVector.valueOf("data.frame"));
             return dataFrame.build();
 
