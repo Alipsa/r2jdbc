@@ -26,7 +26,7 @@ Note that you need to add the driver jar to the classpath in addition to R2JDBC 
         <dependency>
             <groupId>se.alipsa</groupId>
             <artifactId>R2JDBC</artifactId>
-            <version>10.0.23</version>
+            <version>10.0.24</version>
         </dependency>
         <dependency>
           <groupId>joda-time</groupId>
@@ -37,7 +37,7 @@ Note that you need to add the driver jar to the classpath in addition to R2JDBC 
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.0.202</version>
+            <version>2.0.210</version>
         </dependency>
 ```
 
@@ -87,7 +87,10 @@ this is probably a bug in the renjin-maven-plugin or the gcc bridge). Until this
 # Version history
 
 ## Ver 10.0.24
-- Upgrade h2 dependency
+- Upgrade h2 dependency 
+- Workaround for RowNamesVector changes in renjin master compared to 0.9.2716 (now works in any of . 
+- upgrade slf4j version 
+- upgrade testcontainers versions
 
 ## Ver 10.0.23
 - upgrade dependencies (h2, maven site plugin)
