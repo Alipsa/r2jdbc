@@ -86,38 +86,40 @@ this is probably a bug in the renjin-maven-plugin or the gcc bridge). Until this
 
 # Version history
 
-## Ver 10.0.24
+## Ver 10.0.25
+
+## Ver 10.0.24, Jan 29, 2022
 - Upgrade h2 dependency 
-- Workaround for RowNamesVector changes in renjin master compared to 0.9.2716 (now works in any of . 
+- Workaround for RowNamesVector changes in renjin master compared to 0.9.2716 (now works in all versions)
 - upgrade slf4j version 
 - upgrade testcontainers versions
 
-## Ver 10.0.23
+## Ver 10.0.23, Jan 7, 2022
 - upgrade dependencies (h2, maven site plugin)
 - improve bigint support for postgresql (when detected as int8), add support for bigserial
 
-## Ver 10.0.22
+## Ver 10.0.22, Dec 14, 2021
 - Add support for CHARACTER VARYING data type (e.g. H2)
 - Version bump of dependencies. 
 
-## Ver 10.0.21
+## Ver 10.0.21, Mar 10, 2021
 - mysql has a BIGINT UNSIGNED type; treat it as a regular BIGINT for now.
 - Version bump of dependencies.
 
-## Ver 10.0.20
+## Ver 10.0.20, Dec 17, 2019
 - Add support for the "name" datatype (e.g. in postgresql).
 
-## Ver 10.0.19
+## Ver 10.0.19, Jul 02, 2019
 - Fix for Sql server when url contains username/password. 
 - Add unit tests using TestContainer with Docker.
 - Version bump of dependencies.
 
-## Ver 10.0.18
+## Ver 10.0.18, May 04, 2019
 - Add support for datetimeoffset datatype. Published on maven central.
 
-## Ver 10.0.17
+## Ver 10.0.17, Apr 24, 2019
 - Fix for boolean datatype on postgres (announced as "bool" type)
 
-## Ver 10.0.16
+## Ver 10.0.16, Apr 12, 2019
 R2JDBC is a renjin extension providing database connectivity. It is Based on the renjin-dbi (https://github.com/bedatadriven/renjin-dbi). 
 Most of the changes consists of support for more data types.
