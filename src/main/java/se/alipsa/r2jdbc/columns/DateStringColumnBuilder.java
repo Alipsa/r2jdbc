@@ -7,6 +7,7 @@ import org.renjin.sexp.StringVector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
@@ -34,7 +35,15 @@ public class DateStringColumnBuilder implements ColumnBuilder {
         if(date == null) {
             vector.addNA();
         } else {
-            vector.add(format.format(date.toInstant().atZone(ZoneId.systemDefault())));
+            LocalDateTime dateTime;
+            try {
+                // Modern jdbc drivers should support this
+                dateTime = rs.getObject(columnIndex, LocalDateTime.class);
+            } catch (SQLException e) {
+                // But in case there is an older driver, use system default zone id to convert
+                dateTime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            }
+            vector.add(format.format(dateTime));
         }
     }
 
