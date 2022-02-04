@@ -26,12 +26,7 @@ Note that you need to add the driver jar to the classpath in addition to R2JDBC 
         <dependency>
             <groupId>se.alipsa</groupId>
             <artifactId>R2JDBC</artifactId>
-            <version>10.0.24</version>
-        </dependency>
-        <dependency>
-          <groupId>joda-time</groupId>
-          <artifactId>joda-time</artifactId>
-          <version>2.10.13</version>
+            <version>10.0.25</version>
         </dependency>
         <!-- the driver, depends on what db you want to use ;) -->
         <dependency>
@@ -89,6 +84,7 @@ this is probably a bug in the renjin-maven-plugin or the gcc bridge). Until this
 ## Ver 10.0.25
 - Removed dependency on Joda Time
 - Make dateTime retrieval more robust
+- Upgrade jdbc drivers used in test
 
 ## Ver 10.0.24, Jan 29, 2022
 - Upgrade h2 dependency 
