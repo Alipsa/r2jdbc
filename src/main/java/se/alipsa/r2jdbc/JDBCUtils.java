@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.renjin.primitives.sequence.IntSequence;
 import org.renjin.primitives.vector.ConvertingStringVector;
-import org.renjin.sexp.StringArrayVector;
 import se.alipsa.r2jdbc.columns.*;
 import org.renjin.eval.EvalException;
 import org.renjin.sexp.ListVector;
