@@ -68,7 +68,7 @@ dbSendUpdate(con, paste("
 ```
 ## Select
 ```R
-df  <- dbGetQuery(con, "SELECT * from MyTable")
+df <- dbGetQuery(con, "SELECT * from MyTable")
 ```
 ## Update
 ```R
