@@ -1,11 +1,11 @@
 # r2jdbc
 Renjin database connectivity.
 
-Based on renjin-dbi (https://github.com/bedatadriven/renjin-dbi).
+Based on [renjin-dbi](https://github.com/bedatadriven/renjin-dbi).
 
 Releases are now available on maven central. 
 
-# Example
+## Example
 ```R
 library("org.renjin.cran:DBI")
 library("se.alipsa:R2JDBC")
@@ -13,11 +13,17 @@ drv <- JDBC("org.h2.Driver")
 con <- dbConnect(drv, url="jdbc:h2:mem:test") 
 df  <- dbGetQuery(con, "SELECT * from sometable")
 dbDisconnect(con)
+```
 
+All the api functions uses a connection to perform tasks. 
+In order to create a connection to the database you need to load the driver first, e.g:
+```R
+con <- dbConnect(JDBC("org.h2.Driver"), url="jdbc:h2:mem:test")
 ```
 Note that you need to add the driver jar to the classpath in addition to R2JDBC e.g.
 
-```
+```xml
+    <dependencies>
         <dependency>
           <groupId>org.renjin.cran</groupId>
           <artifactId>DBI</artifactId>
@@ -32,16 +38,79 @@ Note that you need to add the driver jar to the classpath in addition to R2JDBC 
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.0.210</version>
+            <version>2.1.212</version>
         </dependency>
+    </dependencies>
 ```
 
+# Functions provided
+
+## Create
+```R
+dbSendUpdate(con, paste('CREATE TABLE MyTable (
+  "id" INT NOT NULL,
+  "title" VARCHAR(50) NOT NULL,
+  "author" VARCHAR(20) NOT NULL,
+  "submission_date" DATE,
+  "insert_date" TIMESTAMP,
+  "price" NUMERIC(20, 2)
+)'))
+```
+
+## Insert
+```R
+dbSendUpdate(con, paste("
+  insert into MyTable values
+    (1, 'Answer to Job', 'C.G. Jung', CURRENT_DATE, CURRENT_TIMESTAMP, 22),
+    (2, 'Lord of the Rings', 'J.R.R. Tolkien', '2019-01-20', CURRENT_TIMESTAMP, 14.11),
+    (3, 'Siddharta', 'Herman Hesse', '2019-01-23', CURRENT_TIMESTAMP, 9.90)
+"))
+```
+## Select
+```R
+df  <- dbGetQuery(con, "SELECT * from MyTable")
+```
+## Update
+```R
+dbSendUpdate(con, "update MyTable set price = 25 where id = 1")
+```
+
+## Delete
+```R
+dbSendUpdate(con, "delete from MyTable where id = 1")
+```
+## Other functions
+### dbGetException
+### dbGetInfo
+### dbListTables
+### dbGetTables
+### dbExistsTable
+### dbRemoveTable
+### dbGetFields
+### dbDataType
+### dbBatchInsert
+Used to insert a dataframe
+  - Example
+  ```R
+    con <- dbConnect(drv, url="jdbc:derby:derbyDB;create=true")
+    dbBatchInsert(con, name=name, df=mtcars, overwrite=TRUE)
+  ```
+### dbWriteTable
+
+## Handling transactions
+### dbBegin
+Begins a transaction, sets autocommit to false
+### dbCommit 
+Commit the transaction
+### dbRollback
+Rollback the transaction
+
 # Special cases
-The microsoft SQl server driver (an maybe others) gets confused when user and password is specified in the url only. 
+The microsoft SQL Server driver (and maybe others) gets confused when user and password is specified in the url only. 
 In most other JDBC drivers, supplying and empty string for user and password works where the username/password in the url
 will then take precedence, but not so for the SQL server driver. Hence, you need to set user and password to NA to get it to work.
 E.g. this pattern (which works for postgres, derby, h2 etc) will not work:
-```
+```R
 drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver")
 con <- dbConnect(
         drv, 
@@ -51,7 +120,7 @@ con <- dbConnect(
 
 but this will work fine:
 
-```
+```R
 drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver")
 con <- dbConnect(
         drv,
@@ -63,7 +132,7 @@ con <- dbConnect(
 
 and of course so will this:
 
-```
+```R
 drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver")
 con <- dbConnect(
         drv,
@@ -81,7 +150,7 @@ this is probably a bug in the renjin-maven-plugin or the gcc bridge). Until this
 
 # Version history
 
-## Ver 10.0.25
+## Ver 10.0.25, Feb 04, 2022
 - Removed dependency on Joda Time
 - Make dateTime retrieval more robust
 - Upgrade jdbc drivers used in test
