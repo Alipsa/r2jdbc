@@ -3,7 +3,7 @@ library("se.alipsa:R2JDBC")
 library("hamcrest")
 
 
-drv <- JDBC("org.apache.derby.jdbc.EmbeddedDriver")
+drv <- JDBC("org.apache.derby.iapi.jdbc.AutoloadedDriver")
 con <- dbConnect(drv, url="jdbc:derby:derbyDB;create=true")
 
 tryCatch(dbSendUpdate(con, "DROP TABLE MyTable"), error = function(e) e)

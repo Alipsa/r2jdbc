@@ -156,12 +156,18 @@ con <- dbConnect(
 ```
 
 # Building 
+R2JDBC is built using maven and Java 8. To create and install a local package
+simply run `mvn install`
+
 Note:
 This does not build properly on Windows for some reason (classes are does not end correctly with RData,
 this is probably a bug in the renjin-maven-plugin or the gcc bridge). Until this is resolved you need to build in Linux
 (though it probably works on other Unix like distributions as well)
 
 # Version history
+
+## Ver 10.1.0
+- Upgrade to Java 11
 
 ## Ver 10.0.25, Feb 04, 2022
 - Removed dependency on Joda Time
