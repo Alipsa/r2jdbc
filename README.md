@@ -5,22 +5,7 @@ Based on [renjin-dbi](https://github.com/bedatadriven/renjin-dbi).
 
 Releases are now available on maven central. 
 
-## Example
-```R
-library("org.renjin.cran:DBI")
-library("se.alipsa:R2JDBC")
-drv <- JDBC("org.h2.Driver") 
-con <- dbConnect(drv, url="jdbc:h2:mem:test") 
-df  <- dbGetQuery(con, "SELECT * from sometable")
-dbDisconnect(con)
-```
-
-All the api functions uses a connection to perform tasks. 
-In order to create a connection to the database you need to load the driver first, e.g:
-```R
-con <- dbConnect(JDBC("org.h2.Driver"), url="jdbc:h2:mem:test")
-```
-Note that you need to add the driver jar to the classpath in addition to R2JDBC e.g.
+Note that you need to add the driver jar to the classpath in addition to R2JDBC e.g:
 
 ```xml
     <dependencies>
@@ -43,9 +28,26 @@ Note that you need to add the driver jar to the classpath in addition to R2JDBC 
     </dependencies>
 ```
 
+## Example
+```R
+library("org.renjin.cran:DBI")
+library("se.alipsa:R2JDBC")
+drv <- JDBC("org.h2.Driver") 
+con <- dbConnect(drv, url="jdbc:h2:mem:test") 
+df  <- dbGetQuery(con, "SELECT * from sometable")
+dbDisconnect(con)
+```
+
+All the api functions uses a connection to perform tasks. 
+In order to create a connection to the database you need to load the driver first, e.g:
+```R
+con <- dbConnect(JDBC("org.h2.Driver"), url="jdbc:h2:mem:test")
+``
+
 # Functions provided
 
 ## Create
+
 ```R
 dbSendUpdate(con, paste('CREATE TABLE MyTable (
   "id" INT NOT NULL,
@@ -67,6 +69,8 @@ dbSendUpdate(con, paste("
 "))
 ```
 ## Select
+The dbGetQuery returns a data.frame:
+
 ```R
 df <- dbGetQuery(con, "SELECT * from MyTable")
 ```
@@ -80,29 +84,41 @@ dbSendUpdate(con, "update MyTable set price = 25 where id = 1")
 dbSendUpdate(con, "delete from MyTable where id = 1")
 ```
 ## Other functions
-### dbGetException
-### dbGetInfo
-### dbListTables
-### dbGetTables
-### dbExistsTable
-### dbRemoveTable
-### dbGetFields
-### dbDataType
-### dbBatchInsert
+
+### dbListTables(conn)
+Returns a character vector of all the table names for the connection.
+
+### dbExistsTable(conn, name)
+returns a logical (boolean) if the specified table exists
+
+### dbRemoveTable(conn, name)
+Drops the table specified
+
+### dbGetFields(conn, name, pattern)
+Return a list of columns names for the table name specified
+
+### dbDataType(conn, obj)
+Returns the appropriate database type for the R object specified.
+Note: this method is not very refined and should be used a hint rather than 
+as a recommendation.
+
+### dbBatchInsert(conn, name, df, overwrite=TRUE, append=FALSE)
 Used to insert a dataframe
   - Example
   ```R
     con <- dbConnect(drv, url="jdbc:derby:derbyDB;create=true")
     dbBatchInsert(con, name=name, df=mtcars, overwrite=TRUE)
   ```
-### dbWriteTable
+### dbWriteTable(conn, name, value, overwrite=TRUE, append=FALSE, csvdump=FALSE, transaction=TRUE)
+Writes the value (a vector, list of data.frame) to a database table.
+Note that the csvdump argument is ignored.
 
 ## Handling transactions
-### dbBegin
+### dbBegin(conn)
 Begins a transaction, sets autocommit to false
-### dbCommit 
+### dbCommit(conn) 
 Commit the transaction
-### dbRollback
+### dbRollback(conn)
 Rollback the transaction
 
 # Special cases
