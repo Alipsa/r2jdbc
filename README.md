@@ -127,34 +127,31 @@ In most other JDBC drivers, supplying and empty string for user and password wor
 will then take precedence, but not so for the SQL server driver. Hence, you need to set user and password to NA to get it to work.
 E.g. this pattern (which works for postgres, derby, h2 etc) will not work:
 ```R
-drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver")
 con <- dbConnect(
-        drv, 
-        url="jdbc:sqlserver://localhost:1433;databaseName=tempdb;user=test;password=unS3cur3P@55"
+  JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver"), 
+  url="jdbc:sqlserver://localhost:1433;databaseName=tempdb;user=test;password=unS3cur3P@55"
 )
 ```
 
 but this will work fine:
 
 ```R
-drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver")
 con <- dbConnect(
-        drv,
-        url="jdbc:sqlserver://localhost:1433;databaseName=tempdb;user=test;password=unS3cur3P@55",
-        user=NA,
-        password=NA
+  JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver"),
+  url="jdbc:sqlserver://localhost:1433;databaseName=tempdb;user=test;password=unS3cur3P@55",
+  user=NA,
+  password=NA
 )
 ```
 
 and of course so will this:
 
 ```R
-drv <- JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver")
 con <- dbConnect(
-        drv,
-        url="jdbc:sqlserver://localhost:1433;databaseName=tempdb",
-        user="test",
-        password="unS3cur3P@55"
+  JDBC("com.microsoft.sqlserver.jdbc.SQLServerDriver"),
+  url="jdbc:sqlserver://localhost:1433;databaseName=tempdb",
+  user="test",
+  password="unS3cur3P@55"
 )
 ```
 
