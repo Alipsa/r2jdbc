@@ -42,7 +42,7 @@ All the api functions uses a connection to perform tasks.
 In order to create a connection to the database you need to load the driver first, e.g:
 ```R
 con <- dbConnect(JDBC("org.h2.Driver"), url="jdbc:h2:mem:test")
-``
+```
 
 # Functions provided
 
