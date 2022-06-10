@@ -58,6 +58,20 @@ dbSendUpdate(con, paste('CREATE TABLE MyTable (
   "price" NUMERIC(20, 2)
 )'))
 ```
+## Drop
+#### Dropping a table
+There are two ways to drop a table:
+```R
+# 1. using dbRemoveTable:
+dbRemoveTable(con, "MyTable")
+
+# 2. using dbSendUpdate
+dbSendUpdate(con, "drop table MyTable")
+```
+#### Dropping a column
+```R
+dbSendUpdate(con, "ALTER TABLE MyTable DROP COLUMN author") 
+```
 
 ## Insert
 ```R
@@ -68,12 +82,14 @@ dbSendUpdate(con, paste("
     (3, 'Siddharta', 'Herman Hesse', '2019-01-23', CURRENT_TIMESTAMP, 9.90)
 "))
 ```
+
 ## Select
 The dbGetQuery returns a data.frame:
 
 ```R
 df <- dbGetQuery(con, "SELECT * from MyTable")
 ```
+
 ## Update
 ```R
 dbSendUpdate(con, "update MyTable set price = 25 where id = 1")
@@ -83,6 +99,7 @@ dbSendUpdate(con, "update MyTable set price = 25 where id = 1")
 ```R
 dbSendUpdate(con, "delete from MyTable where id = 1")
 ```
+
 ## Other functions
 
 ### dbListTables(conn)
@@ -111,6 +128,8 @@ Used to insert a dataframe
   ```
 ### dbWriteTable(conn, name, value, overwrite=TRUE, append=FALSE, csvdump=FALSE, transaction=TRUE)
 Writes the value (a vector, list of data.frame) to a database table.
+This is functionally equivalent to dbBatchInsert but implemented differently.
+
 Note that the csvdump argument is ignored.
 
 ## Handling transactions
