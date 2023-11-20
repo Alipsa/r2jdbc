@@ -119,7 +119,7 @@
       <groupId>org.apache.derby</groupId>
       <artifactId>derby</artifactId>
       <!-- 10.15 support java 9 and later only -->
-      <version>10.15.2.0</version>
+      <version>10.17.1.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
